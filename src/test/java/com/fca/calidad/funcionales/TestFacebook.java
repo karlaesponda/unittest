@@ -13,6 +13,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.apache.commons.io.FileUtils;
 import java.io.File;
+import java.io.IOException;
 
 public class TestFacebook {
 	  private WebDriver driver;
@@ -42,6 +43,7 @@ public class TestFacebook {
 		    //si se traba ponerle pausas, bueno si no pasa
 		    WebElement error = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div[2]/div[2]/form/div/div[1]/div[2]"));
 		    assertEquals("El correo electrónico que ingresaste no está conectado a una cuenta. Encuentra tu cuenta e inicia sesión.", error.getText());
+		    takeScreenshot("testFacebook.jpg");
 	  }
 
 	  @After
@@ -85,4 +87,12 @@ public class TestFacebook {
 	      acceptNextAlert = true;
 	    }
 	  }
+	  
+	  public void takeScreenshot(String name) {
+		    File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		    try {
+			    FileUtils.copyFile(scrFile, new File("/tmp/screenshots/", name));
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }}
 	}
